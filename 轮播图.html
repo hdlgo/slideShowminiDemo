@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./slide.css">
+    <title>轮播图</title>
+</head>
+<body>
+    <div class="contain">
+        <!-- 滑动的图片 -->
+        <ul class="ulList">
+            <li index='0' class="imgItem on"><a href="#"><img src="./src/img1.jpg" alt=""></a></li>
+            <li index='1' class="imgItem"><a href="#"><img src="./src/img2.jpg" alt=""></a></li>
+            <li index='2' class="imgItem"><a href="#"><img src="./src/img3.jpg" alt=""></a></li>
+            <li index='3' class="imgItem"><a href="#"><img src="./src/img4.jpg" alt=""></a></li>
+        </ul>
+        <!-- 上一页下一页的按钮 -->
+        <div class="slide-btn-contain">
+            <a href="javascript:void(0);" class="prev">&lt;</a>
+            <a href="javascript:void(0);" class="next">&gt;</a>
+        </div>
+        <div class="select-btn">
+            <a index='0' href="javascript:0" class='on'></a>
+            <a index='1' href="javascript:0"></a>
+            <a index='2' href="javascript:0"></a>
+            <a index='3' href="javascript:0"></a>
+        </div>
+    </div>
+    <script>
+        var nextBtn = document.querySelector('.slide-btn-contain .next');
+        var slideContent = document.querySelector('.contain .ulList');
+        var prevBtn = document.querySelector('.slide-btn-contain .prev');
+        var selectBtnDiv = document.querySelector('.select-btn');
+        var selectBtnAll=selectBtnDiv.querySelectorAll('a');
+        var imgList = document.querySelectorAll('.ulList li');
+        var timer=null;
+        slideAuto();
+        nextBtn.addEventListener('click',function(){
+            slideNext();
+            slideAuto();
+        });
+        prevBtn.addEventListener('click',function(){
+            slidePrev();
+            slideAuto();
+        });
+        selectBtnDiv.addEventListener('click',function(e){
+            let target = e.target;
+            if(target == this){
+                return ;
+            }else{
+                let curIndex=selectBtnDiv.querySelector('a.on').getAttribute('index');
+                let nextIndex=target.getAttribute('index');
+                slide(curIndex , nextIndex);
+                slideAuto();
+            }
+        }); 
+        function slideAuto() {  
+            if(timer){
+                clearInterval(timer);
+                timer = null;
+            }
+            timer=setInterval(slideNext,2000);
+        }
+        function slideNext() {  
+            //拿到当前所显示的图片的index
+            var curItem = document.querySelector('.contain .ulList .on');
+            var curIndex = curItem.getAttribute('index');
+            curIndex = parseInt(curIndex);     //将index值转为数字
+            var nextIndex = (curIndex+1)%4;
+            slide(curIndex , nextIndex);
+        }
+        function slidePrev() {  
+            var curItem = document.querySelector('.contain .ulList .on');
+            var curIndex = curItem.getAttribute('index');
+            curIndex=parseInt(curIndex);     //将index值转为数字
+            var nextIndex = (curIndex-1+4)%4;
+            slide(curIndex , nextIndex); 
+        }
+        function slide(curIndex , nextIndex) {  
+            let curLeft = curIndex* -500;
+            let nextLeft = nextIndex* -500;
+            // slideContent.style.left = nextLeft+'px';
+            slideTransition(curIndex,nextIndex,500);  //设置滑动动画
+            imgList[curIndex].className = 'imgItem';
+            imgList[nextIndex].className = 'imgItem on';
+            var selectBtnAll=document.querySelectorAll('.select-btn a');
+            selectBtnAll[curIndex].className='';
+            selectBtnAll[nextIndex].className='on';
+        }
+        function slideTransition(curIndex,nextIndex,time){
+            let curLeft = curIndex* -500;
+            let nextLeft = nextIndex* -500;
+            let distance = nextLeft-curLeft;
+            let disPerms = distance/time;  //每毫秒钟需要移动的距离
+            let startTime = new Date();
+            let interval = setInterval(function () {  
+                let curTime = new Date();
+                let slideDis = (curTime-startTime)*disPerms;
+                if(curTime-startTime>=time){
+                    slideContent.style.left = nextLeft+'px';
+                    clearInterval(interval);
+                    return;
+                }
+                slideContent.style.left = (curLeft+slideDis)+'px';
+            },1000/60)
+        }
+    </script>
+</body>
+</html>

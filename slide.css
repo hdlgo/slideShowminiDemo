@@ -1,0 +1,79 @@
+
+    html,body,div,ul,li,a{
+        margin: 0;
+        padding: 0;
+    }
+    ul,ol {
+        list-style: none;
+    }
+    a {
+        text-decoration: none;
+        color: #000000;
+    }
+    .contain{
+        border:1px solid #cccccc;
+        width: 500px;
+        height: 300px;
+        overflow: hidden;
+        position: relative;
+    }
+    .contain .ulList{
+        width: 2000px;
+        z-index: 1;
+        position: absolute;
+    }
+    .contain .ulList  li{
+        float:left;
+        height: 300px;
+    }
+    .contain .imgItem a  img{
+        width: 500px;
+        height: 300px;
+    }
+    /* 设置左右按钮的位置等信息 */
+    .contain  .slide-btn-contain{
+        position:absolute;
+        height: 30px;
+        line-height: 30px;
+        /* 垂直居中 */
+        transform: translateY(-50%);
+        top:50%;
+        font-size: 18px;
+        width: 100%;
+        z-index: 100;
+    }
+    .contain  .slide-btn-contain a{
+        background-color: rgba(196, 192, 192, 0.5);
+        color: #999999;
+    }
+    .contain  .slide-btn-contain a:hover{
+        background-color: rgba(196, 192, 192, 0.8);
+    }
+    .contain  .slide-btn-contain .prev{
+        float: left;
+    }
+    .contain  .slide-btn-contain .next{
+        float: right;
+    }
+    .contain .select-btn{
+        height: 10px;
+        width: 64px;
+        /* background-color: aqua; */
+        z-index: 100;
+        position:absolute;
+        bottom: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .contain .select-btn a{
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #999999;
+        float: left;
+        margin-right: 4px;
+        margin-left: 4px;
+    }
+    .contain .select-btn a.on{
+        background-color: #c7bfbf;
+    }
